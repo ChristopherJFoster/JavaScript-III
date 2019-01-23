@@ -130,6 +130,8 @@ console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
+console.log("\n"); // Breaks up output so it's easier to read.
+
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
 
@@ -165,10 +167,10 @@ const argoroth = new Villain({
   healthPoints: 40,
   name: "Argoroth",
   team: "Hell's Middlemen",
-  weapons: ["Charred Bone Katana", "Caltrops", "Ceremonial Dagger"],
+  weapons: ["Charred Bone Katana", "Bloody Morning Star"],
   languages: ["Common Tongue", "Scarred Tongue", "Old Elvish", "Telepathy"],
   taunt: "You likely will not live to regret your decision.",
-  secretWeapon: "poison"
+  secretWeapon: "Poisoned Ceremonial Dagger"
 });
 
 const glasowyn = new Hero({
@@ -188,9 +190,99 @@ const glasowyn = new Hero({
 });
 
 console.log(argoroth.greet());
-console.log(glasowyn.greet());
 argoroth.speakTaunt();
+console.log(glasowyn.greet());
 glasowyn.speakBattleCry();
 
+console.log("\n");
+
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+Villain.prototype.normalAttack = function(target) {
+  let damage = Math.floor(Math.random() * Math.floor(this.healthPoints / 4)); // I set the max damage to the Villain's hp / 4 - the less healthy the attacker, the less damage they can inflict.
+  let plural = "points";
+  if (damage === 1) {
+    plural = "point"; // It's nice to see "1 health point" and not "1 health points".
+  }
+  target.healthPoints -= damage;
+  console.log(
+    `${this.name} hits ${target.name} with a ${
+      this.weapons[
+        Math.floor(Math.random() * Math.floor(this.weapons.length)) // This code chooses randomly from among the attacking character's weapons.
+      ]
+    } for ${damage} health ${plural}!`
+  );
+  if (target.healthPoints <= 0) {
+    console.log(`${target.name} has sustained mortal damage!`);
+    console.log(target.destroy());
+  } else {
+    console.log(`${target.name} lives to fight on!`);
+  }
+};
+
+Villain.prototype.specialAttack = function(target) {
+  let damage = Math.floor(Math.random() * Math.floor(this.healthPoints / 3)); // The special attack is more powerful.
+  let plural = "points";
+  if (damage === 1) {
+    plural = "point";
+  }
+  target.healthPoints -= damage;
+  console.log(
+    `${this.name} hits ${target.name} with a ${
+      this.secretWeapon
+    } for ${damage} health ${plural}!`
+  );
+  if (target.healthPoints <= 0) {
+    console.log(`${target.name} has sustained mortal damage!`);
+    console.log(target.destroy());
+  } else {
+    console.log(`${target.name} lives to fight on!`);
+  }
+};
+
+// Outside of this exercise, I might have created a "BossHumanoid" constructor, and collapsed Villain and Hero into that. Since they're two different constructors, however, I repeat myself:
+Hero.prototype.normalAttack = function(target) {
+  let damage = Math.floor(Math.random() * Math.floor(this.healthPoints / 2)); // The Hero's max damage is hp / 2 (instead of the Villain's hp / 4). The gods smile upon the Hero!
+  let plural = "points";
+  if (damage === 1) {
+    plural = "point";
+  }
+  target.healthPoints -= damage;
+  console.log(
+    `${this.name} hits ${target.name} with a ${
+      this.weapons[Math.floor(Math.random() * Math.floor(this.weapons.length))]
+    } for ${damage} health ${plural}!`
+  );
+  if (target.healthPoints <= 0) {
+    console.log(`${target.name} has sustained mortal damage!`);
+    console.log(target.destroy());
+  } else {
+    console.log(`${target.name} lives to fight on!`);
+  }
+};
+
+Hero.prototype.specialAttack = function(target) {
+  let damage = Math.floor(Math.random() * Math.floor(this.healthPoints / 1.5));
+  let plural = "points";
+  if (damage === 1) {
+    plural = "point";
+  }
+  target.healthPoints -= damage;
+  console.log(
+    `${this.name} hits ${target.name} with a ${
+      this.superWeapon
+    } for ${damage} health ${plural}!`
+  );
+  if (target.healthPoints <= 0) {
+    console.log(`${target.name} has sustained mortal damage!`);
+    console.log(target.destroy());
+  } else {
+    console.log(`${target.name} lives to fight on!`);
+  }
+};
+
+glasowyn.normalAttack(argoroth);
+argoroth.specialAttack(mage);
+
+console.log("\n");
+
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
