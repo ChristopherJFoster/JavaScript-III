@@ -183,7 +183,7 @@ const glasowyn = new Hero({
   healthPoints: 30,
   name: "Glasowyn",
   team: "Deldien",
-  weapons: ["Bow", "Dagger"],
+  weapons: ["Mace of Serenity", "Cutlass"],
   languages: ["Elvish", "Common Tongue", "Old Elvish", "Dwarvish"],
   battleCry: "Friends - draw your weapons and FIGHT for Deldien!",
   superWeapon: "Sword Before Time"
@@ -286,3 +286,54 @@ argoroth.specialAttack(mage);
 console.log("\n");
 
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+// I create a Villain object and Hero object above. Now they will fight to the death:
+
+function epicBattle(hero, villain) {
+  console.log(
+    `Here begins the epic battle between ${hero.name} and ${villain.name}!` +
+      "\n"
+  );
+  console.log(
+    `Will ${villain.name} prove victorious, or will ${hero.name}'s ${
+      hero.superWeapon
+    } carry the day? Let's find out!` + "\n"
+  );
+  let winner = "";
+  while (!winner) {
+    let attacker = "";
+    let defender = "";
+    let attDef = Math.floor(Math.random() * Math.floor(2));
+    if (attDef === 0) {
+      attacker = hero;
+      defender = villain;
+    } else {
+      attacker = villain;
+      defender = hero;
+    }
+    let normSpec = Math.floor(Math.random() * Math.floor(2));
+    if (normSpec === 0) {
+      attacker.normalAttack(defender);
+    } else {
+      attacker.specialAttack(defender);
+    }
+    if (defender.healthPoints <= 0) {
+      winner = attacker;
+    }
+  }
+  if (winner === hero) {
+    console.log(
+      `${hero.name} has defeated the mighty ${villain.name}! May ${
+        hero.name
+      } live in glory forever!`
+    );
+  } else {
+    console.log(
+      `Alas, ${villain.name} has slain the venerable ${hero.name}! ${
+        villain.name
+      }'s victory will be written in blood in the Evil Book!`
+    );
+  }
+}
+
+epicBattle(glasowyn, argoroth);
