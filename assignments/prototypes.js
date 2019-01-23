@@ -21,7 +21,7 @@ function GameObject(atts) {
 }
 
 GameObject.prototype.destroy = function() {
-  return `Object was removed from the game.`;
+  return `${this.name} was removed from the game.`;
 };
 
 /*
@@ -39,7 +39,6 @@ function CharacterStats(atts) {
 }
 
 CharacterStats.prototype = Object.create(GameObject.prototype);
-
 CharacterStats.prototype.takeDamage = function() {
   return `${this.name} took damage.`;
 };
@@ -58,13 +57,16 @@ function Humanoid(atts) {
   CharacterStats.call(this, atts);
   this.team = atts.team;
   this.weapons = atts.weapons;
-  this.language = atts.language;
+  this.languages = atts.languages;
 }
 
 Humanoid.prototype = Object.create(CharacterStats.prototype);
-
 Humanoid.prototype.greet = function() {
-  return `${this.name} offers a greeting in ${this.language}.`;
+  return `${this.name} offers a greeting in ${
+    this.languages[
+      Math.floor(Math.random() * Math.floor(this.languages.length))
+    ] // Added multiple languages to some characters - this code chooses randomly among the greeting character's known languages.
+  }.`;
 };
 
 /*
@@ -86,7 +88,7 @@ const mage = new Humanoid({
   name: "Bruce",
   team: "Mage Guild",
   weapons: ["Staff of Shamalama"],
-  language: "Common Tongue"
+  languages: ["Common Tongue", "Scarred Tongue", "Rudimentary Telepathy"]
 });
 
 const swordsman = new Humanoid({
@@ -100,7 +102,7 @@ const swordsman = new Humanoid({
   name: "Sir Mustachio",
   team: "The Round Table",
   weapons: ["Giant Sword", "Shield"],
-  language: "Common Tongue"
+  languages: ["Common Tongue"]
 });
 
 const archer = new Humanoid({
@@ -114,7 +116,7 @@ const archer = new Humanoid({
   name: "Lilith",
   team: "Forest Kingdom",
   weapons: ["Bow", "Dagger"],
-  language: "Elvish"
+  languages: ["Elvish", "Common Tongue"]
 });
 
 console.log(mage.createdAt); // Today's date
@@ -123,12 +125,72 @@ console.log(swordsman.healthPoints); // 15
 console.log(mage.name); // Bruce
 console.log(swordsman.team); // The Round Table
 console.log(mage.weapons); // Staff of Shamalama
-console.log(archer.language); // Elvish
+console.log(archer.languages); // Elvish
 console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
+
+function Villain(atts) {
+  Humanoid.call(this, atts);
+  this.taunt = atts.taunt;
+  this.secretWeapon = atts.secretWeapon;
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+Villain.prototype.speakTaunt = function() {
+  console.log(`${this.name}: ${this.taunt}`);
+};
+
+function Hero(atts) {
+  Humanoid.call(this, atts);
+  this.battleCry = atts.battleCry;
+  this.superWeapon = atts.superWeapon;
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+Hero.prototype.speakBattleCry = function() {
+  console.log(`${this.name}: ${this.battleCry}`);
+};
+
+const argoroth = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 1,
+    width: 3,
+    height: 7
+  },
+  healthPoints: 40,
+  name: "Argoroth",
+  team: "Hell's Middlemen",
+  weapons: ["Charred Bone Katana", "Caltrops", "Ceremonial Dagger"],
+  languages: ["Common Tongue", "Scarred Tongue", "Old Elvish", "Telepathy"],
+  taunt: "You likely will not live to regret your decision.",
+  secretWeapon: "poison"
+});
+
+const glasowyn = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 1,
+    width: 1,
+    height: 8
+  },
+  healthPoints: 30,
+  name: "Glasowyn",
+  team: "Deldien",
+  weapons: ["Bow", "Dagger"],
+  languages: ["Elvish", "Common Tongue", "Old Elvish", "Dwarvish"],
+  battleCry: "Friends - draw your weapons and FIGHT for Deldien!",
+  superWeapon: "Sword Before Time"
+});
+
+console.log(argoroth.greet());
+console.log(glasowyn.greet());
+argoroth.speakTaunt();
+glasowyn.speakBattleCry();
+
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
