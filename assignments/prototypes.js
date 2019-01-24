@@ -198,7 +198,7 @@ console.log("\n");
 
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
 Villain.prototype.normalAttack = function(target) {
-  let damage = Math.floor(Math.random() * Math.floor(this.healthPoints / 4)); // I set the max damage to the Villain's hp / 4 - the less healthy the attacker, the less damage they can inflict.
+  let damage = Math.floor(Math.random() * Math.floor(this.healthPoints / 3)); // I set the max damage to the Villain's hp / 4 - the less healthy the attacker, the less damage they can inflict.
   let plural = "points";
   if (damage === 1) {
     plural = "point"; // It's nice to see "1 health point" and not "1 health points".
@@ -241,7 +241,7 @@ Villain.prototype.specialAttack = function(target) {
 
 // Outside of this exercise, I might have created a "BossHumanoid" constructor, and collapsed Villain and Hero into that. Since they're two different constructors, however, I repeat myself:
 Hero.prototype.normalAttack = function(target) {
-  let damage = Math.floor(Math.random() * Math.floor(this.healthPoints / 2)); // The Hero's max damage is hp / 2 (instead of the Villain's hp / 4). The gods smile upon the Hero!
+  let damage = Math.floor(Math.random() * Math.floor(this.healthPoints / 2.25)); // The Hero's max damage is hp / 2 (instead of the Villain's hp / 4). The gods smile upon the Hero!
   let plural = "points";
   if (damage === 1) {
     plural = "point";
@@ -287,7 +287,7 @@ console.log("\n");
 
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
 
-// I create a Villain object and Hero object above. Now they will fight to the death:
+// I created a Villain object and Hero object above. Now they will fight to the death:
 
 function epicBattle(hero, villain) {
   console.log(
